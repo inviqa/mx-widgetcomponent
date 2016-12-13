@@ -1,6 +1,6 @@
 {
-    "name": "mx/widget-component",
-    "description": "MX - Widget Component",
+    "name": "inviqa/mx-widgetcomponent",
+    "description": "Inviqa - MX Widget Component",
     "type": "magento2-module",
     "version": "1.0.0",
     "minimum-stability": "dev",

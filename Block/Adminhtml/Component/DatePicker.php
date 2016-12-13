@@ -13,11 +13,13 @@ use MX\WidgetComponent\Form\Component\DatePicker\Date;
  * Date picker optional configuration
  *
  * <data>
- *     <item name="dateFormat" xsi:type="number">3</item> \IntlDateFormatter
- *     <item name="timeFormat" xsi:type="number">3</item> \IntlDateFormatter
+ *     <item name="dateFormat" xsi:type="string"></item>
+ *     <item name="timeFormat" xsi:type="string"></item>
  *     <item name="image" xsi:type="string"></item>
- *     <item name="disabled" xsi:type="boolean">1</item>
+ *     <item name="disabled" xsi:type="boolean"></item>
  * </data>
+ *
+ * Date formats: Zend_Date
  *
  */
 class DatePicker extends Template
@@ -75,7 +77,8 @@ class DatePicker extends Template
             $dateFormat = $config['dateFormat'];
         }
 
-        $timeFormat = $this->_localeDate->getTimeFormat(\IntlDateFormatter::SHORT);
+        // There is no time by default. It acts like a simple date picker
+        $timeFormat = '';
         if (!empty($config['timeFormat'])) {
             $timeFormat = $config['timeFormat'];
         }
