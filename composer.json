@@ -1,0 +1,22 @@
+{
+    "name": "mx/widget-component",
+    "description": "MX - Widget Component",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "minimum-stability": "dev",
+    "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0"
+    },
+    "config": {
+        "bin-dir": "bin",
+        "use-include-path": true
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MX\\WidgetComponent\\": ""
+        }
+    }
+}
