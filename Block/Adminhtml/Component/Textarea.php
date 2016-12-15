@@ -39,6 +39,7 @@ class Textarea extends Template
             'after_element_html',
             $textarea->getElementHtml()
         );
+        $element->setValue(''); // Stop loading the value back for the parent element
 
         return $element;
     }

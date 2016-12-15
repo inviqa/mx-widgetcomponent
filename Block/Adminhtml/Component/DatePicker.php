@@ -56,6 +56,7 @@ class DatePicker extends Template
             'after_element_html',
             $date->getElementHtml()
         );
+        $element->setValue(''); // Stop loading the value back for the parent element
 
         return $element;
     }
