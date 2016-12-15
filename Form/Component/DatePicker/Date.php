@@ -14,11 +14,9 @@ class Date extends DateParent
     {
         /**
          * Workaround for initialising the calendar date picker script.
-         * Also hides the 'control-value' div
          */
         return '<script type="text/javascript">' .
             'jQuery("#' . $this->getHtmlId() . '").trigger(\'contentUpdated\');' .
-            'jQuery("#' . $this->getHtmlId() . '").prev().hide();' .
             '</script>';
     }
 }
