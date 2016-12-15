@@ -4,7 +4,6 @@ namespace MX\WidgetComponent\Block\Adminhtml\Component;
 
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context;
-use Magento\Backend\Block\Widget\Button;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Data\Form\Element\Factory;
 use MX\WidgetComponent\Form\Component\DatePicker\Date;
@@ -31,8 +30,6 @@ class DatePicker extends Template
      * @var Factory
      */
     protected $elementFactory;
-
-
 
     /**
      * @param Context $context
