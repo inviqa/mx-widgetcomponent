@@ -1,11 +1,12 @@
 # MX_WidgetComponent
 Useful module to implement widget components that don't exist in Magento 2.
 
-Currently 4 types of component can be defined: 
+Currently 5 types of component can be defined: 
 - Image Picker 
 - Date Picker
 - Datetime Picker
 - Textarea
+- Checkbox
 
 ##Compatibility
 Magento 2.X
@@ -84,5 +85,20 @@ widget.xml
 <parameter name="textarea_id" xsi:type="block" visible="true" required="false">
     <label translate="true">Textarea</label>
     <block class="MX\WidgetComponent\Block\Adminhtml\Component\Textarea" />
+</parameter>
+```
+
+### Checkbox
+Useful for replacing the select boolean Yes/No component
+
+widget.xml
+```
+<parameter name="checkbox_id" xsi:type="block" visible="true" required="false">
+    <label translate="true">Checkbox</label>
+    <block class="MX\WidgetComponent\Block\Adminhtml\Component\Checkbox">
+        <data>
+            <item name="value" xsi:type="string">checkbox_value</item>
+        </data>
+    </block>
 </parameter>
 ```
