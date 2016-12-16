@@ -18,6 +18,8 @@ use Magento\Framework\Data\Form\Element\Factory;
  */
 class Checkbox extends Template
 {
+    const DEFAULT_VALUE = 1;
+
     /**
      * @var Factory
      */
@@ -67,7 +69,7 @@ class Checkbox extends Template
             $checked = true;
         }
 
-        $value = $baseElement->getName() . '_checkbox';
+        $value = self::DEFAULT_VALUE;
         if (!empty($config['value'])) {
             $value = $config['value'];
         }
