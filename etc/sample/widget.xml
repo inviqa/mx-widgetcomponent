@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="widget_sample" class="Magento\Widget\Block\Adminhtml\Widget">
+        <label translate="true">Widget Sample</label>
+        <description translate="true"><![CDATA[Widget definition sample.]]>></description>
+        <parameters>
+            <!-- Image Picker -->
+            <parameter name="imagepicker_sample" xsi:type="block" visible="true" required="false">
+                <label translate="true">Image Picker Sample</label>
+                <description translate="true">
+                    <![CDATA[Sample description.]]>
+                </description>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\ImagePicker">
+                    <data>
+                        <item name="dimension" xsi:type="array">
+                            <item name="max-width" xsi:type="string">500</item>
+                            <item name="max-height" xsi:type="string">500</item>
+                        </item>
+                        <item name="max-size" xsi:type="string">50000</item>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Select Image...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <!-- Date Picker -->
+            <parameter name="datepicker_sample" xsi:type="block" visible="true" required="false">
+                <label translate="true">Date Picker Sample</label>
+                <description translate="true">
+                    <![CDATA[Sample description.]]>
+                </description>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\DatePicker">
+                    <data>
+                        <item name="dateFormat" xsi:type="string">Y-m-d</item>
+                        <item name="image" xsi:type="string">path-to/url</item>
+                        <item name="disabled" xsi:type="boolean">true</item>
+                    </data>
+                </block>
+            </parameter>
+            <!-- Date Time Picker -->
+            <parameter name="datetimepicker_sample" xsi:type="block" visible="true" required="false">
+                <label translate="true">DateTime Picker Sample</label>
+                <description translate="true">
+                    <![CDATA[Sample description.]]>
+                </description>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\DateTimePicker">
+                    <data>
+                        <item name="dateFormat" xsi:type="string">Y-m-d</item>
+                        <item name="timeFormat" xsi:type="string">H:i</item>
+                        <item name="image" xsi:type="string">path-to/url</item>
+                        <item name="disabled" xsi:type="boolean">true</item>
+                    </data>
+                </block>
+            </parameter>
+            <!-- Textarea -->
+            <parameter name="textarea_sample" xsi:type="block" visible="true" required="false">
+                <label translate="true">Textarea Sample</label>
+                <description translate="true">
+                    <![CDATA[Sample description.]]>
+                </description>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\Textarea" />
+            </parameter>
+            <!-- Checkbox -->
+            <parameter name="checkbox_sample" xsi:type="block" visible="true" required="false">
+                <label translate="true">Checkbox Sample</label>
+                <description translate="true">
+                    <![CDATA[Sample description.]]>
+                </description>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\Checkbox">
+                    <data>
+                        <item name="value" xsi:type="string">sample</item>
+                    </data>
+                </block>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>
