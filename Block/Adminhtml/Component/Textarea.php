@@ -6,7 +6,20 @@ use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Data\Form\Element\Factory;
+use MX\WidgetComponent\Form\Component\Textarea as TextareaComponent;
 
+/**
+ * Textarea optional configuration
+ *
+ * <data>
+ *     <item name="cols" xsi:type="string"></item>
+ *     <item name="rows" xsi:type="string"></item>
+ *     <item name="maxlength" xsi:type="string"></item>
+ * </data>
+ *
+ * Date formats: Zend_Date
+ *
+ */
 class Textarea extends Template
 {
     /**
@@ -51,11 +64,25 @@ class Textarea extends Template
      */
     protected function createTextareaElement(AbstractElement $baseElement)
     {
-        $textarea = $this->elementFactory->create('textarea', ['data' => $baseElement->getData()]);
+        $config = $this->_getData('config');
+
+        $textarea = $this->elementFactory->create(TextareaComponent::class, ['data' => $baseElement->getData()]);
         $textarea->setId($baseElement->getId());
         $textarea->setForm($baseElement->getForm());
         if ($baseElement->getRequired()) {
             $textarea->addClass('required-entry');
+        }
+
+        if (!empty($config['cols'])) {
+            $textarea->setData('cols', $config['cols']);
+        }
+
+        if (!empty($config['rows'])) {
+            $textarea->setData('rows', $config['rows']);
+        }
+
+        if (!empty($config['maxlength'])) {
+            $textarea->setData('maxlength', $config['maxlength']);
         }
 
         return $textarea;
