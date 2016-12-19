@@ -19,22 +19,16 @@ class Textarea extends TextareaParent
     }
 
     /**
+     * Return the element as HTML
      *
      * @return string
      */
-    public function getAfterElementHtml()
+    public function getElementHtml()
     {
-        $html = '';
+        $html = parent::getElementHtml();
+
         if ($this->getData('maxlength')) {
-            $html = '<script type="text/javascript">' .
-                '(function($) {' .
-                    '$("#' . $this->getHtmlId() . '").keyup(function () {' .
-                        'var left = ' . $this->getData('maxlength') . ' - $(this).val().length;' .
-                        'if (left < 0) { left = 0; }' .
-                        '$("#' . $this->getHtmlId() . '").prev().text("Characters left: " + left); ' .
-                    '});' .
-                '})(jQuery);' .
-            '</script>';
+            $html = str_replace('>', " data-mage-init='{\"MXWidgetComponentTextarea\":{}}'>", $html);
         }
 
         return $html;
