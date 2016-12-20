@@ -6,6 +6,7 @@ use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Data\Form\Element\Factory;
+use MX\WidgetComponent\Form\Component\Checkbox as CheckboxComponent;
 
 /**
  * Checkbox - useful for replacing Select boolean
@@ -74,11 +75,12 @@ class Checkbox extends Template
             $value = $config['value'];
         }
 
-        $checkbox = $this->elementFactory->create('checkbox', ['data' => $baseElement->getData()]);
+        $checkbox = $this->elementFactory->create(CheckboxComponent::class, ['data' => $baseElement->getData()]);
         $checkbox->setValue($value);
         $checkbox->setIsChecked($checked);
         $checkbox->setId($baseElement->getId());
         $checkbox->setForm($baseElement->getForm());
+        $checkbox->addClass('ios-switch');
         if ($baseElement->getRequired()) {
             $checkbox->addClass('required-entry');
         }
