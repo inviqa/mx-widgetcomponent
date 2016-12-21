@@ -7,6 +7,7 @@ use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Button;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Data\Form\Element\Factory;
+use MX\WidgetComponent\Form\Component\SubWidget\Button as ButtonComponent;
 
 class SubWidget extends Template
 {
@@ -38,21 +39,15 @@ class SubWidget extends Template
      */
     public function prepareElementHtml(AbstractElement $element)
     {
-        $sourceUrl = $this->buildUrl($element->getId());
-
-        $chooser = $this->createConfigureButton($element, $sourceUrl);
+        $chooser = $this->createConfigureButton($element);
         $input = $this->createHiddenElement($element);
-
-        $requiredJs = '<script>require(["MXWidgetComponentSubWidget"], function(){
-            window.subWidgetDialogHandler' . $element->getId() . ' = new SubWidget.DialogHandler(' . $element->getId() . ');
-        })</script>';
 
         // Disable wrapper for the element and the hidden input
         $element->setNoWrapAsAddon(true);
 
         $element->setData(
             'after_element_html',
-            $requiredJs . $input->getElementHtml() . $chooser->toHtml()
+            $input->getElementHtml() . $chooser->toHtml()
         );
 
         return $element;
@@ -73,11 +68,10 @@ class SubWidget extends Template
 
     /**
      * @param AbstractElement $baseElement
-     * @param string $sourceUrl
      *
      * @return Button
      */
-    protected function createConfigureButton(AbstractElement $baseElement, $sourceUrl)
+    protected function createConfigureButton(AbstractElement $baseElement)
     {
         $config = $this->_getData('config');
 
@@ -86,14 +80,16 @@ class SubWidget extends Template
             $label = $config[self::CONFIG_KEY_BUTTON_LABEL];
         }
 
-        $onClick = 'subWidgetDialogHandler' . $baseElement->getId() . '.openDialog("' . $sourceUrl . '")';
+        $sourceUrl = $this->buildUrl($baseElement->getId());
 
-        $button = $this->getLayout()->createBlock(Button::class)
-            ->setType('button')
-            ->setClass('btn-chooser')
-            ->setLabel($label)
-            ->setOnClick($onClick)
-            ->setDisabled($baseElement->getReadonly());
+        $button = $this->elementFactory->create(ButtonComponent::class, ['data' => $baseElement->getData()]);
+        $button->setId($baseElement->getId());
+        $button->setForm($baseElement->getForm());
+        $button->setData('url', $sourceUrl);
+        $button->setLabel(null);
+        $button->setButtonLabel($label);
+        $button->setClass('btn-chooser');
+        $button->setDisabled($baseElement->getReadonly());
 
         return $button;
     }

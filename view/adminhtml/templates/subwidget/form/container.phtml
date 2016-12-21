@@ -1,12 +1,7 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-
 // @codingStandardsIgnoreFile
 
-/** @var $block \Magento\Backend\Block\Widget\Form\Container */
+/** @var $block MX\WidgetComponent\Block\Adminhtml\Component\SubWidget\FormContainer\ */
  ?>
 <?php if ($block->getButtonsHtml('header')): ?>
     <div class="page-form-actions" <?php /* @escapeNotVerified */ echo $block->getUiId('content-header') ?>><?php echo $block->getButtonsHtml('header') ?></div>
@@ -17,9 +12,4 @@
         <p class="form-buttons"><?php echo $block->getButtonsHtml('footer') ?></p>
     </div>
 <?php endif; ?>
-
-<script>
-require(["MXWidgetComponentSubWidget"], function() {
-    <?php echo $this->getFormHandlerJsObj(); ?> = new SubWidget.FormHandler("<?php echo $this->getTargetElementId(); ?>");
-});
-</script>
+<div data-mage-init='{"MXWidgetComponentSubWidget":{"targetId": "<?php echo $this->getTargetElementId(); ?>"}}'></div>

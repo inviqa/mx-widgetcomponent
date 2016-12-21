@@ -43,19 +43,10 @@ class FormContainer extends BaseFormContainer
                 'label' => __('Save'),
                 'class' => 'save primary add-widget',
                 'id' => 'insert_button',
-                'region' => 'footer',
-                'onclick' => $this->getFormHandlerJsObj() . '.insertWidget()'
+                'region' => 'footer'
             ],
             1
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function getFormHandlerJsObj()
-    {
-        return 'subWidgetFormHandler' . $this->getTargetElementId();
     }
 
     /**

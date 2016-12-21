@@ -1,110 +1,135 @@
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-
 define([
-    "jquery",
-    "tinymce",
+    'jquery',
     'Magento_Ui/js/modal/alert',
-    "jquery/ui",
-    "mage/translate",
-    "mage/mage",
-    "mage/validation",
-    "mage/adminhtml/events",
-    "prototype",
-    'Magento_Ui/js/modal/modal'
-], function(jQuery, tinyMCE, alert){
-    var SubWidget = {};
-    SubWidget.DialogHandler = Class.create();
-    SubWidget.DialogHandler.prototype = {
-        dialogOpened : false,
-        targetElementId: null,
+    'jquery/ui',
+    'mage/validation',
+    'mage/translate',
+    'Magento_Ui/js/modal/modal',
+    'mage/adminhtml/browser'
+], function($, alert) {
+    'use strict';
 
-        initialize: function(targetElementId) {
-            this.targetElementId = targetElementId;
+    var $form,
+        $input,
+        $button;
+
+    $.widget('mx.widgetComponentSubWidget', {
+        options: {
+            url: '',
+            targetId: ''
         },
 
-        openDialog: function(widgetUrl) {
-            if (this.dialogOpened) {
-                return
+        _create: function() {
+            $form = $('#widget_options_form');
+            if (this._insertFormDisplayed()) {
+                $form = $('#' + this.options.targetId + '_options_form');
             }
-            var oThis = this;
-            widgetUrl = widgetUrl + 'widget_values/' + encodeURIComponent($(this.targetElementId).value);
-            this.dialogWindow = jQuery('<div/>').modal({
-                title: jQuery.mage.__('SubWidget configuration...'),
-                type: 'slide',
-                buttons: [],
-                opened: function () {
-                    var dialog = jQuery(this).addClass('loading magento-message')
-                    new Ajax.Updater($(this), widgetUrl, {
-                        evalScripts: true,
-                        onComplete: function () {
-                            dialog.removeClass('loading');
-                        }
-                    });
-                },
-                closed: function (e, modal) {
-                    modal.modal.remove();
-                    oThis.dialogOpened = false;
-                }
-            });
-            this.dialogOpened = true;
-            this.dialogWindow.modal('openModal');
+
+            if (this.options.targetId !== '') {
+                $input = $('#' + this.options.targetId);
+                $button = $('#' + this.options.targetId + '_button');
+            }
+
+            this._bind();
         },
 
-        closeDialog: function() {
-            this.dialogWindow.modal('closeModal');
-        }
-    }
+        _bind: function() {
+            var $this = this;
 
-    SubWidget.FormHandler = Class.create();
-    SubWidget.FormHandler.prototype = {
-        widgetTargetId: null,
-        dialogHandler: null,
-
-        initialize: function(widgetTargetId) {
-            this.widgetTargetId = widgetTargetId;
-            this.formEl = widgetTargetId + '_options_form';
-            this.dialogHandler =  window['subWidgetDialogHandler' + widgetTargetId];
+            if (this._insertFormDisplayed()) {
+                $('.content-footer').find('button').click(function() {
+                    $this._insertWidget();
+                });
+            } else {
+                $button.on('click', function() {
+                    $this._openDialog();
+                });
+            }
         },
 
-        insertWidget: function() {
-            jQuery('#' + this.formEl).validate({
+        _insertWidget: function() {
+            var $this = this;
+
+            $form.validate({
                 ignore: ".skip-submit",
                 errorClass: 'mage-error'
             });
 
-            var validationResult = jQuery('#' + this.formEl).valid();
+            var validationResult = $form.valid();
             if (validationResult) {
-                var formElements = [];
-                var i = 0;
-                Form.getElements($(this.formEl)).each(function(e) {
-                    if(!e.hasClassName('skip-submit')) {
-                        formElements[i] = e;
-                        i++;
+                var params = $form.find('input, textarea, select').not('.skip-submit');
+
+                $.ajax({
+                   url: $form.attr('action'),
+                    data: params.serialize(),
+                    complete: function(response) {
+                        try {
+                            $this._closeDialog();
+                            $input.val(response.responseText);
+                            $input.prev('.control-value').html(response.responseText);
+                        } catch (e) {
+                            alert({
+                                content: e.message
+                            });
+                        }
                     }
                 });
-
-                var params = Form.serializeElements(formElements);
-
-                new Ajax.Request($(this.formEl).action,
-                    {
-                        parameters: params,
-                        onComplete: function(transport) {
-                            try {
-                                this.dialogHandler.closeDialog();
-                                $(this.widgetTargetId).value = transport.responseText;
-                            } catch(e) {
-                                alert({
-                                    content: e.message
-                                });
-                            }
-                        }.bind(this)
-                    });
             }
-        }
-    }
+        },
 
-    window.SubWidget = SubWidget;
+        _openDialog: function() {
+            if (this.dialogOpened) {
+                return;
+            }
+
+            var $this = this,
+                formKey = $('input[name="form_key"]:first').val(),
+                widgetUrl = this.options.url + 'widget_values/' + encodeURIComponent(this.element.val());
+
+            this.dialogWindow = $('<div/>').modal({
+                title: $.mage.__('SubWidget configuration...'),
+                type: 'slide',
+                buttons: [],
+                opened: function () {
+                    var dialog = $(this).addClass('loading magento-message');
+                    $.ajax({
+                        url : widgetUrl,
+                        data: {'form_key': formKey},
+                        complete: function(response) {
+                            dialog.removeClass('loading');
+                            $(dialog).html(response.responseText);
+                        }
+                    });
+                },
+                closed: function (e, modal) {
+                    $this._closeDialog(modal);
+                }
+            });
+
+            this.dialogOpened = true;
+            this.dialogWindow.modal('openModal');
+        },
+
+        _closeDialog: function(modal) {
+            if (typeof modal !== 'undefined') {
+                modal.modal.remove();
+            } else {
+                if (typeof this.dialogWindow !== 'undefined') {
+                    this.dialogWindow.modal('closeModal');
+                } else {
+                    this.element.closest('[data-role="modal"]').find('.action-close').trigger('click');
+                }
+            }
+
+            this.dialogOpened = false;
+
+            this._bind(); // Re-bind everything after close
+        },
+
+        _insertFormDisplayed: function() {
+            return (this.options.targetId !== '' && $('#' + this.options.targetId + '_options_form').length);
+        }
+    });
+
+    return $.mx.widgetComponentSubWidget;
 });
