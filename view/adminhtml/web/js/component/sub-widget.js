@@ -84,7 +84,7 @@ define([
 
             var $this = this,
                 formKey = $('input[name="form_key"]:first').val(),
-                widgetUrl = this.options.url + 'widget_values/' + encodeURIComponent(this.element.val());
+                widgetUrl = this.options.url + 'widget_values/' + encodeURIComponent($input.val());
 
             this.dialogWindow = $('<div/>').modal({
                 title: $.mage.__('SubWidget configuration...'),
