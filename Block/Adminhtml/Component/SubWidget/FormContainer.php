@@ -21,8 +21,8 @@ class FormContainer extends BaseFormContainer
 
     /**
      * @param Context        $context
-     * @param array          $data
      * @param WidgetProvider $widgetProvider
+     * @param array          $data
      */
     public function __construct(Context $context, WidgetProvider $widgetProvider, array $data = [])
     {
