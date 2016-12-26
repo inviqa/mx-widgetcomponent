@@ -2,10 +2,7 @@
 
 namespace MX\WidgetComponent\Block\Adminhtml\Component;
 
-use Magento\Backend\Block\Template;
-use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magento\Framework\Data\Form\Element\Factory;
 use MX\WidgetComponent\Form\Component\Checkbox as CheckboxComponent;
 
 /**
@@ -17,24 +14,21 @@ use MX\WidgetComponent\Form\Component\Checkbox as CheckboxComponent;
  *
  * @package MX\WidgetComponent\Block\Adminhtml\Component
  */
-class Checkbox extends Template
+class Checkbox extends Base
 {
     const DEFAULT_VALUE = 1;
 
     /**
-     * @var Factory
+     * Prepare chooser element HTML
+     *
+     * @param AbstractElement $element
+     * @return AbstractElement
      */
-    protected $elementFactory;
-
-    /**
-     * @param Context $context
-     * @param Factory $elementFactory
-     * @param array   $data
-     */
-    public function __construct(Context $context, Factory $elementFactory, $data = [])
+    public function prepareElementHtml(AbstractElement $element)
     {
-        $this->elementFactory = $elementFactory;
-        parent::__construct($context, $data);
+        $element->setValue(''); // Stop loading the value back for the parent element
+
+        return parent::prepareElementHtml($element);
     }
 
     /**
@@ -43,17 +37,11 @@ class Checkbox extends Template
      * @param AbstractElement $element Form Element
      * @return AbstractElement
      */
-    public function prepareElementHtml(AbstractElement $element)
+    public function getComponentHtml(AbstractElement $element)
     {
         $checkbox = $this->createCheckboxElement($element);
 
-        $element->setData(
-            'after_element_html',
-            $checkbox->getElementHtml()
-        );
-        $element->setValue(''); // Stop loading the value back for the parent element
-
-        return $element;
+        return $checkbox->getElementHtml();
     }
 
     /**
