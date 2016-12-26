@@ -9,9 +9,10 @@ define([
 ], function($, alert) {
     'use strict';
 
-    var $form,
+    var formId,
         $input,
-        $button;
+        $button,
+        $widget;
 
     $.widget('mx.widgetComponentSubWidget', {
         options: {
@@ -20,35 +21,18 @@ define([
         },
 
         _create: function() {
-            $form = $('#widget_options_form');
-            if (this._insertFormDisplayed()) {
-                $form = $('#' + this.options.targetId + '_options_form');
-            }
+            $widget = this;
+            $input = $('#' + this.options.targetId);
+            $button = $('#' + this.options.targetId + '_button');
+            formId = '#' + this.options.targetId + '_options_form';
 
-            if (this.options.targetId !== '') {
-                $input = $('#' + this.options.targetId);
-                $button = $('#' + this.options.targetId + '_button');
-            }
-
-            this._bind();
-        },
-
-        _bind: function() {
-            var $this = this;
-
-            if (this._insertFormDisplayed()) {
-                $('.content-footer').find('button').click(function() {
-                    $this._insertWidget();
-                });
-            } else {
-                $button.on('click', function() {
-                    $this._openDialog();
-                });
-            }
+            $button.on('click', function() {
+                $widget._openDialog();
+            });
         },
 
         _insertWidget: function() {
-            var $this = this;
+            var $form = $(formId);
 
             $form.validate({
                 ignore: ".skip-submit",
@@ -60,11 +44,11 @@ define([
                 var params = $form.find('input, textarea, select').not('.skip-submit');
 
                 $.ajax({
-                   url: $form.attr('action'),
+                    url: $form.attr('action'),
                     data: params.serialize(),
                     complete: function(response) {
                         try {
-                            $this._closeDialog();
+                            $widget._closeDialog();
                             $input.val(response.responseText);
                             $input.prev('.control-value').html(response.responseText);
                         } catch (e) {
@@ -82,14 +66,19 @@ define([
                 return;
             }
 
-            var $this = this,
-                formKey = $('input[name="form_key"]:first').val(),
+            var formKey = $('input[name="form_key"]:first').val(),
                 widgetUrl = this.options.url + 'widget_values/' + encodeURIComponent($input.val());
 
             this.dialogWindow = $('<div/>').modal({
                 title: $.mage.__('SubWidget configuration...'),
                 type: 'slide',
-                buttons: [],
+                buttons: [{
+                    text: $.mage.__('Insert'),
+                    'class': 'action save',
+                    click: function() {
+                        $widget._insertWidget();
+                    }
+                }],
                 opened: function () {
                     var dialog = $(this).addClass('loading magento-message');
                     $.ajax({
@@ -102,7 +91,7 @@ define([
                     });
                 },
                 closed: function (e, modal) {
-                    $this._closeDialog(modal);
+                    $widget._closeDialog(modal);
                 }
             });
 
@@ -122,12 +111,6 @@ define([
             }
 
             this.dialogOpened = false;
-
-            this._bind(); // Re-bind everything after close
-        },
-
-        _insertFormDisplayed: function() {
-            return (this.options.targetId !== '' && $('#' + this.options.targetId + '_options_form').length);
         }
     });
 

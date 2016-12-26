@@ -31,25 +31,6 @@ class FormContainer extends BaseFormContainer
     }
 
     /**
-     * @return void
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-
-        $this->addButton(
-            'save',
-            [
-                'label' => __('Save'),
-                'class' => 'save primary add-widget',
-                'id' => 'insert_button',
-                'region' => 'footer'
-            ],
-            1
-        );
-    }
-
-    /**
      * @return string
      */
     public function getWidgetType()
