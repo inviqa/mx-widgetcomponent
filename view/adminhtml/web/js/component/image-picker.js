@@ -5,8 +5,16 @@ define([
 ], function ($) {
     'use strict';
 
+    var $widget,
+        $input,
+        $label,
+        $button,
+        $previewImage;
+
     $.widget('mx.widgetComponentImagePicker', {
         options: {
+            url: '',
+            targetId: '',
             baseMediaUrl: ''
         },
 
@@ -15,6 +23,12 @@ define([
          * @protected
          */
         _create: function () {
+            $widget = this;
+            $input = $('#' + this.options.targetId);
+            $label = $input.prev();
+            $button = $('#' + this.options.targetId + '_button');
+            $previewImage = $('#' + this.options.targetId + '_preview_image');
+
             this._bind();
         },
 
@@ -23,31 +37,40 @@ define([
          * @protected
          */
         _bind: function () {
-            var $image = this.element.find('img'),
-                imageUrl,
-                input = this.element.prev(),
-                $this = this;
+            $input.on('change', function() {
+                var newValue = $input.val();
 
-            input.on('change', function() {
-                if ($(this).val() == '') {
+                if (newValue == '') {
                     return;
                 }
 
-                $(this).prev().text(input.val());
+                $label.text(newValue);
 
-                if ($image.length) {
-                    imageUrl = $this.options.baseMediaUrl + input.val();
-                    $image.attr('src', imageUrl);
+                if ($previewImage.length) {
+                    var imageUrl = $widget._getImageUrl(newValue)
+                    $previewImage.attr('src', imageUrl);
 
-                    if (!$this.isValidImage(imageUrl)) {
-                        $(this).val('');
-                        $image.attr('src', '');
+                    if (!$widget._isValidImage(imageUrl)) {
+                        $input.val('');
+                        $previewImage.attr('src', '');
                     }
                 }
             });
+
+            $button.on('click', function() {
+                $widget._openDialog();
+            });
         },
 
-        isValidImage: function(imageUrl) {
+        _openDialog: function() {
+            MediabrowserUtility.openDialog($widget.options.url);
+        },
+
+        _getImageUrl: function(imagePath) {
+            return $widget.options.baseMediaUrl + imagePath;
+        },
+
+        _isValidImage: function(imageUrl) {
             return imageUrl.indexOf('wysiwyg') !== -1;
         }
     });

@@ -5,6 +5,7 @@ namespace MX\WidgetComponent\Block\Adminhtml\Component;
 use MX\WidgetComponent\Form\Component\ImagePicker\Image\Preview;
 use Magento\Backend\Block\Widget\Button;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\UrlInterface;
 
 /**
  * Image picker optional configuration
@@ -71,13 +72,25 @@ class ImagePicker extends Base
         }
 
         $sourceUrl = $this->buildUrl($baseElement->getId());
+        $mediaUrl = $this->_storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
 
         $button = $this->getLayout()->createBlock(Button::class)
             ->setType('button')
-            ->setClass('btn-chooser')
+            ->setId($baseElement->getId() . '_button')
+            ->setClass('btn-chooser ' . self::CSS_CLASS_HAS_JS)
             ->setLabel($label)
-            ->setOnClick('MediabrowserUtility.openDialog(\'' . $sourceUrl . '\')')
-            ->setDisabled($baseElement->getReadonly());
+            ->setDisabled($baseElement->getReadonly())
+            ->setDataAttribute(
+                [
+                    'mage-init' => [
+                        'MXWidgetComponentImagePicker' => [
+                            'url' => $sourceUrl,
+                            'targetId' => $baseElement->getId(),
+                            'baseMediaUrl' => $mediaUrl
+                        ]
+                    ]
+                ]
+            );
 
         return $button;
     }
