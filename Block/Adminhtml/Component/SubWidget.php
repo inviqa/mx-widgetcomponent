@@ -55,10 +55,9 @@ class SubWidget extends Template
 
     protected function createHiddenElement(AbstractElement $baseElement)
     {
-        $hidden = $this->elementFactory->create("text", ['data' => $baseElement->getData()]);
+        $hidden = $this->elementFactory->create("hidden", ['data' => $baseElement->getData()]);
         $hidden->setId($baseElement->getId());
         $hidden->setForm($baseElement->getForm());
-        $hidden->addClass('hidden');
         if ($baseElement->getRequired()) {
             $hidden->addClass('required-entry');
         }
@@ -82,7 +81,7 @@ class SubWidget extends Template
 
         $sourceUrl = $this->buildUrl($baseElement->getId());
 
-        $button = $this->elementFactory->create(ButtonComponent::class, ['data' => $baseElement->getData()]);
+        $button = $this->elementFactory->create(ButtonComponent::class);
         $button->setId($baseElement->getId());
         $button->setForm($baseElement->getForm());
         $button->setData('url', $sourceUrl);
