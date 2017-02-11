@@ -12,6 +12,8 @@ abstract class Base extends Template
     const CSS_CLASS_HAS_JS = 'has-js-component';
     const JS_INIT_SCRIPT = '<script type="text/javascript">require([\'jquery\'], function($){$(".has-js-component").trigger(\'contentUpdated\');});</script>';
 
+    protected $unsetValueAfterInit = false;
+
     /**
      * @var Factory
      */
@@ -42,6 +44,10 @@ abstract class Base extends Template
             'after_element_html',
             $this->getComponentHtml($element) . self::JS_INIT_SCRIPT
         );
+
+        if ($this->unsetValueAfterInit) {
+            $element->setValue('');
+        }
 
         return $element;
     }

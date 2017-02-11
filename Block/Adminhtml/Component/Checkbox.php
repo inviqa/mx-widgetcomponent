@@ -18,18 +18,7 @@ class Checkbox extends Base
 {
     const DEFAULT_VALUE = 1;
 
-    /**
-     * Prepare chooser element HTML
-     *
-     * @param AbstractElement $element
-     * @return AbstractElement
-     */
-    public function prepareElementHtml(AbstractElement $element)
-    {
-        $element->setValue(''); // Stop loading the value back for the parent element
-
-        return parent::prepareElementHtml($element);
-    }
+    protected $unsetValueAfterInit = true;
 
     /**
      * Prepare chooser element HTML

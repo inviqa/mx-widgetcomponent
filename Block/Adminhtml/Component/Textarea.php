@@ -19,18 +19,8 @@ use MX\WidgetComponent\Form\Component\Textarea as TextareaComponent;
  */
 class Textarea extends Base
 {
-    /**
-     * Prepare chooser element HTML
-     *
-     * @param AbstractElement $element
-     * @return AbstractElement
-     */
-    public function prepareElementHtml(AbstractElement $element)
-    {
-        $element->setValue(''); // Stop loading the value back for the parent element
-
-        return parent::prepareElementHtml($element);
-    }
+    protected $unsetValueAfterInit = true;
+    
     /**
      * @param  AbstractElement $baseElement
      *
