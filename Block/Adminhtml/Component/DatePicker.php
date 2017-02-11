@@ -2,11 +2,8 @@
 
 namespace MX\WidgetComponent\Block\Adminhtml\Component;
 
-use Magento\Backend\Block\Template;
-use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magento\Framework\Data\Form\Element\Factory;
-use MX\WidgetComponent\Form\Component\DatePicker\Date;
+use Magento\Framework\Data\Form\Element\Date;
 
 /**
  * Date picker optional configuration
@@ -21,26 +18,12 @@ use MX\WidgetComponent\Form\Component\DatePicker\Date;
  * Date formats: Zend_Date
  *
  */
-class DatePicker extends Template
+class DatePicker extends Base
 {
     const DEFAULT_DATE_LABEL = 'Select Date';
     const DEFAULT_DISABLED = 0;
 
-    /**
-     * @var Factory
-     */
-    protected $elementFactory;
-
-    /**
-     * @param Context $context
-     * @param Factory $elementFactory
-     * @param array   $data
-     */
-    public function __construct(Context $context, Factory $elementFactory, $data = [])
-    {
-        $this->elementFactory = $elementFactory;
-        parent::__construct($context, $data);
-    }
+    protected $unsetValueAfterInit = true;
 
     /**
      * Prepare chooser element HTML
@@ -48,17 +31,11 @@ class DatePicker extends Template
      * @param AbstractElement $element Form Element
      * @return AbstractElement
      */
-    public function prepareElementHtml(AbstractElement $element)
+    public function getComponentHtml(AbstractElement $element)
     {
         $date = $this->createDateElement($element);
 
-        $element->setData(
-            'after_element_html',
-            $date->getElementHtml()
-        );
-        $element->setValue(''); // Stop loading the value back for the parent element
-
-        return $element;
+        return $date->getElementHtml();
     }
 
     /**
@@ -99,6 +76,7 @@ class DatePicker extends Template
 
         $date->setId($baseElement->getId());
         $date->setForm($baseElement->getForm());
+        $date->setClass(self::CSS_CLASS_HAS_JS);
         if ($baseElement->getRequired()) {
             $date->addClass('required-entry');
         }

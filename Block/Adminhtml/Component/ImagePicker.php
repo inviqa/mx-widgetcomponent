@@ -3,11 +3,9 @@
 namespace MX\WidgetComponent\Block\Adminhtml\Component;
 
 use MX\WidgetComponent\Form\Component\ImagePicker\Image\Preview;
-use Magento\Backend\Block\Template;
-use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Button;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magento\Framework\Data\Form\Element\Factory;
+use Magento\Framework\UrlInterface;
 
 /**
  * Image picker optional configuration
@@ -24,51 +22,22 @@ use Magento\Framework\Data\Form\Element\Factory;
  * </data>
  *
  */
-class ImagePicker extends Template
+class ImagePicker extends Base
 {
     const DEFAULT_CHOOSE_LABEL = 'Select Image...';
 
     /**
-     * @var Factory
-     */
-    protected $elementFactory;
-
-
-
-    /**
-     * @param Context $context
-     * @param Factory $elementFactory
-     * @param array   $data
-     */
-    public function __construct(Context $context, Factory $elementFactory, $data = [])
-    {
-        $this->elementFactory = $elementFactory;
-        parent::__construct($context, $data);
-    }
-
-    /**
-     * Prepare chooser element HTML
+     * @param AbstractElement $baseElement
      *
-     * @param AbstractElement $element Form Element
-     * @return AbstractElement
+     * @return string
      */
-    public function prepareElementHtml(AbstractElement $element)
+    protected function getComponentHtml(AbstractElement $baseElement)
     {
-        $sourceUrl = $this->buildUrl($element->getId());
+        $button = $this->createChooseButton($baseElement);
+        $image = $this->createPreviewImage($baseElement);
+        $input = $this->createHiddenElement($baseElement);
 
-        $chooser = $this->createChooseButton($element, $sourceUrl);
-        $image = $this->createPreviewImage($element);
-        $input = $this->createHiddenElement($element);
-
-        // Disable wrapper for the element and the hidden input
-        $element->setNoWrapAsAddon(true);
-
-        $element->setData(
-            'after_element_html',
-            $input->getElementHtml() . $image->getElementHtml() . $chooser->toHtml()
-        );
-
-        return $element;
+        return $input->getElementHtml() . $image->getElementHtml() . $button->toHtml();
     }
 
     /**
@@ -90,11 +59,10 @@ class ImagePicker extends Template
 
     /**
      * @param AbstractElement $baseElement
-     * @param string $sourceUrl
      *
      * @return Button
      */
-    protected function createChooseButton(AbstractElement $baseElement, $sourceUrl)
+    protected function createChooseButton(AbstractElement $baseElement)
     {
         $config = $this->_getData('config');
 
@@ -103,12 +71,26 @@ class ImagePicker extends Template
             $label = $config['button']['open'];
         }
 
+        $sourceUrl = $this->buildUrl($baseElement->getId());
+        $mediaUrl = $this->_storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
+
         $button = $this->getLayout()->createBlock(Button::class)
             ->setType('button')
-            ->setClass('btn-chooser')
+            ->setId($baseElement->getId() . '_button')
+            ->setClass('btn-chooser ' . self::CSS_CLASS_HAS_JS)
             ->setLabel($label)
-            ->setOnClick('MediabrowserUtility.openDialog(\'' . $sourceUrl . '\')')
-            ->setDisabled($baseElement->getReadonly());
+            ->setDisabled($baseElement->getReadonly())
+            ->setDataAttribute(
+                [
+                    'mage-init' => [
+                        'MXWidgetComponentImagePicker' => [
+                            'url' => $sourceUrl,
+                            'targetId' => $baseElement->getId(),
+                            'baseMediaUrl' => $mediaUrl
+                        ]
+                    ]
+                ]
+            );
 
         return $button;
     }

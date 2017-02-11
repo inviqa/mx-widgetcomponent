@@ -2,10 +2,7 @@
 
 namespace MX\WidgetComponent\Block\Adminhtml\Component;
 
-use Magento\Backend\Block\Template;
-use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magento\Framework\Data\Form\Element\Factory;
 use MX\WidgetComponent\Form\Component\Textarea as TextareaComponent;
 
 /**
@@ -20,41 +17,20 @@ use MX\WidgetComponent\Form\Component\Textarea as TextareaComponent;
  * Date formats: Zend_Date
  *
  */
-class Textarea extends Template
+class Textarea extends Base
 {
+    protected $unsetValueAfterInit = true;
+    
     /**
-     * @var Factory
-     */
-    protected $elementFactory;
-
-    /**
-     * @param Context $context
-     * @param Factory $elementFactory
-     * @param array   $data
-     */
-    public function __construct(Context $context, Factory $elementFactory, $data = [])
-    {
-        $this->elementFactory = $elementFactory;
-        parent::__construct($context, $data);
-    }
-
-    /**
-     * Prepare chooser element HTML
+     * @param  AbstractElement $baseElement
      *
-     * @param AbstractElement $element Form Element
-     * @return AbstractElement
+     * @return string
      */
-    public function prepareElementHtml(AbstractElement $element)
+    public function getComponentHtml(AbstractElement $element)
     {
         $textarea = $this->createTextareaElement($element);
 
-        $element->setData(
-            'after_element_html',
-            $textarea->getElementHtml()
-        );
-        $element->setValue(''); // Stop loading the value back for the parent element
-
-        return $element;
+        return $textarea->getElementHtml();
     }
 
     /**
@@ -69,6 +45,7 @@ class Textarea extends Template
         $textarea = $this->elementFactory->create(TextareaComponent::class, ['data' => $baseElement->getData()]);
         $textarea->setId($baseElement->getId());
         $textarea->setForm($baseElement->getForm());
+        $textarea->setClass(self::CSS_CLASS_HAS_JS);
         if ($baseElement->getRequired()) {
             $textarea->addClass('required-entry');
         }

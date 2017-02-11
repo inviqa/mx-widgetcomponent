@@ -3,7 +3,6 @@
 namespace MX\WidgetComponent\Form\Component\ImagePicker\Image;
 
 use MX\WidgetComponent\Helper\Image as ImageHelper;
-use Magento\Cms\Helper\Wysiwyg\Images as CmsImageHelper;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Data\Form\Element\CollectionFactory;
 use Magento\Framework\Data\Form\Element\Factory;
@@ -11,7 +10,7 @@ use Magento\Framework\Escaper;
 
 class Preview extends AbstractElement
 {
-    const DIV_TAG = '<div style="float: left; margin-right: 10px" data-mage-init=\'{"MXWidgetComponentImagePicker":{%scriptData%}}\'>%s</div>';
+    const DIV_TAG = '<div style="float: left; margin-right: 10px">%s</div>';
     const A_TAG = '<a href="javascript:void(0)" onclick="imagePreview(\'%s\')">%s</a>';
     const IMG_TAG = '<img id="%s" src="%s" height="36" width="36" class="v-middle"/>';
 
@@ -21,16 +20,10 @@ class Preview extends AbstractElement
     protected $imageHelper;
 
     /**
-     * @var CmsImageHelper
-     */
-    protected $cmsImageHelper;
-
-    /**
      * @param Factory           $factoryElement
      * @param CollectionFactory $factoryCollection
      * @param Escaper           $escaper
      * @param ImageHelper       $imageHelper
-     * @param CmsImageHelper    $cmsImageHelper
      * @param array             $data
      */
     public function __construct(
@@ -38,11 +31,9 @@ class Preview extends AbstractElement
         CollectionFactory $factoryCollection,
         Escaper $escaper,
         ImageHelper $imageHelper,
-        CmsImageHelper $cmsImageHelper,
         $data = []
     ) {
         $this->imageHelper = $imageHelper;
-        $this->cmsImageHelper = $cmsImageHelper;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('image');
     }
@@ -97,13 +88,6 @@ class Preview extends AbstractElement
      */
     private function createDivTag($content)
     {
-        // replace data-mage-init
-        $div = str_replace(
-            '%scriptData%',
-            '"baseMediaUrl": "' . $this->cmsImageHelper->getBaseUrl() . '"}}\'',
-            self::DIV_TAG
-        );
-
-        return sprintf($div, $content);
+        return sprintf(self::DIV_TAG, $content);
     }
 }

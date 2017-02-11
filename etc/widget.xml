@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="mx_widgetcomponent_link" class="MX\WidgetComponent\Block\Widget\Link">
+        <label>MX WidgetComponent: Link</label>
+        <description translate="true"><![CDATA[Link widget]]></description>
+        <parameters>
+            <parameter name="template" xsi:type="select" visible="false">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/link.phtml" selected="true">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="link_text" xsi:type="text" visible="true" required="true" sort_order="10">
+                <label translate="true">Text</label>
+            </parameter>
+            <parameter name="link_url" xsi:type="text" visible="true" required="true" sort_order="20">
+                <label translate="true">Url</label>
+                <description><![CDATA[The value <b>%store_url%</b> will expand into the current Store URL.]]></description>
+            </parameter>
+            <parameter name="open_in_new_window" xsi:type="block" visible="true" required="false" sort_order="30">
+                <label translate="true">Open in new window</label>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\Checkbox"/>
+            </parameter>
+        </parameters>
+    </widget>
+    <widget id="mx_widgetcomponent_image" class="MX\WidgetComponent\Block\Widget\Image">
+        <label>MX WidgetComponent: Image</label>
+        <description translate="true"><![CDATA[Image widget]]></description>
+        <parameters>
+            <parameter name="template" xsi:type="select" visible="false">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/image.phtml" selected="true">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="image_url" xsi:type="block" visible="true" required="true" sort_order="10">
+                <label translate="true">Image</label>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\ImagePicker"/>
+            </parameter>
+            <parameter name="image_alt_text" xsi:type="text" visible="true" required="false" sort_order="20">
+                <label translate="true">Image Alt Text</label>
+            </parameter>
+        </parameters>
+    </widget>
+    <widget id="mx_widgetcomponent_image_link" class="MX\WidgetComponent\Block\Widget\ImageLink">
+        <label>MX WidgetComponent: Image Link</label>
+        <description translate="true"><![CDATA[Image Link widget]]></description>
+        <parameters>
+            <parameter name="template" xsi:type="select" visible="false">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/image_link.phtml" selected="true">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="image" xsi:type="block" visible="true" required="true" sort_order="10">
+                <label translate="true">Image</label>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\SubWidget">
+                    <data>
+                        <item name="button-label" xsi:type="string">Configure Image</item>
+                        <item name="widget-type-id" xsi:type="string">mx_widgetcomponent_image</item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="link_url" xsi:type="text" visible="true" required="true" sort_order="20">
+                <label translate="true">Link Url</label>
+                <description><![CDATA[The value <b>%store_url%</b> will expand into the current Store URL.]]></description>
+            </parameter>
+            <parameter name="open_in_new_window" xsi:type="block" visible="true" required="false" sort_order="30">
+                <label translate="true">Open in new window</label>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\Checkbox"/>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>
+
+
