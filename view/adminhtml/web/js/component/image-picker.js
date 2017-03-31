@@ -5,12 +5,6 @@ define([
 ], function ($) {
     'use strict';
 
-    var $widget,
-        $input,
-        $label,
-        $button,
-        $previewImage;
-
     $.widget('mx.widgetComponentImagePicker', {
         options: {
             url: '',
@@ -18,16 +12,20 @@ define([
             baseMediaUrl: ''
         },
 
+        input: "",
+        label: "",
+        button: "",
+        previewImage: "",
+
         /**
          * Gallery creation
          * @protected
          */
         _create: function () {
-            $widget = this;
-            $input = $('#' + this.options.targetId);
-            $label = $input.prev();
-            $button = $('#' + this.options.targetId + '_button');
-            $previewImage = $('#' + this.options.targetId + '_preview_image');
+            this.input = $('#' + this.options.targetId);
+            this.label = this.input.prev();
+            this.button = $('#' + this.options.targetId + '_button');
+            this.previewImage = $('#' + this.options.targetId + '_preview_image');
 
             this._bind();
         },
@@ -37,37 +35,38 @@ define([
          * @protected
          */
         _bind: function () {
-            $input.on('change', function() {
-                var newValue = $input.val();
+            var $widget = this;
+            this.input.on('change', function() {
+                var newValue = $widget.input.val();
 
                 if (newValue == '') {
                     return;
                 }
 
-                $label.text(newValue);
+                $widget.label.text(newValue);
 
-                if ($previewImage.length) {
+                if ($widget.previewImage.length) {
                     var imageUrl = $widget._getImageUrl(newValue)
-                    $previewImage.attr('src', imageUrl);
+                    $widget.previewImage.attr('src', imageUrl);
 
                     if (!$widget._isValidImage(imageUrl)) {
-                        $input.val('');
-                        $previewImage.attr('src', '');
+                        $widget.input.val('');
+                        $widget.previewImage.attr('src', '');
                     }
                 }
             });
 
-            $button.on('click', function() {
+            $widget.button.on('click', function() {
                 $widget._openDialog();
             });
         },
 
         _openDialog: function() {
-            MediabrowserUtility.openDialog($widget.options.url);
+            MediabrowserUtility.openDialog(this.options.url);
         },
 
         _getImageUrl: function(imagePath) {
-            return $widget.options.baseMediaUrl + imagePath;
+            return this.options.baseMediaUrl + imagePath;
         },
 
         _isValidImage: function(imageUrl) {

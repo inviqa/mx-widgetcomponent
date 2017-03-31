@@ -62,7 +62,7 @@ Magento 2.X (tested in magento 2.0.10, 2.1.2)
 ```xml
 <parameter name="my_param" xsi:type="block" visible="true" required="false">
     <label translate="true">Image</label>
-    <block class="MX\WidgetComponent\Block\Adminhtml\Component\ImagePicker" />
+    <block class="MX\WidgetComponent\Block\Adminhtml\Component\ImagePicker">
         <!-- Optional configuration parameters -->
         <data>
             <item name="dimension" xsi:type="array">

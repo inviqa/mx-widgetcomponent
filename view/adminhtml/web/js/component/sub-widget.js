@@ -9,30 +9,30 @@ define([
 ], function($, alert) {
     'use strict';
 
-    var formId,
-        $input,
-        $button,
-        $widget;
-
     $.widget('mx.widgetComponentSubWidget', {
         options: {
             url: '',
             targetId: ''
         },
 
-        _create: function() {
-            $widget = this;
-            $input = $('#' + this.options.targetId);
-            $button = $('#' + this.options.targetId + '_button');
-            formId = '#' + this.options.targetId + '_options_form';
+        formId: "",
+        input: "",
+        button: "",
 
-            $button.on('click', function() {
+        _create: function() {
+            var $widget = this;
+            this.formId = '#' + this.options.targetId + '_options_form';
+            this.input = $('#' + this.options.targetId);
+            this.button = $('#' + this.options.targetId + '_button');
+
+            this.button.on('click', function() {
                 $widget._openDialog();
             });
         },
 
         _insertWidget: function() {
-            var $form = $(formId);
+            var $form = $(this.formId);
+            var $widget = this;
 
             $form.validate({
                 ignore: ".skip-submit",
@@ -49,8 +49,8 @@ define([
                     complete: function(response) {
                         try {
                             $widget._closeDialog();
-                            $input.val(response.responseText);
-                            $input.prev('.control-value').html(response.responseText);
+                            $widget.input.val(response.responseText);
+                            $widget.input.prev('.control-value').html(response.responseText);
                         } catch (e) {
                             alert({
                                 content: e.message
@@ -67,7 +67,8 @@ define([
             }
 
             var formKey = $('input[name="form_key"]:first').val(),
-                widgetUrl = this.options.url + '?widget_values=' + encodeURIComponent($input.val());
+                widgetUrl = this.options.url + '?widget_values=' + encodeURIComponent(this.input.val()),
+                $widget = this;
 
             this.dialogWindow = $('<div/>').modal({
                 title: $.mage.__('SubWidget configuration...'),
