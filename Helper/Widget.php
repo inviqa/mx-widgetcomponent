@@ -31,32 +31,37 @@ class Widget
     }
 
     /**
-     * @param  string $widgetDataYaml
+     * @param string $widgetDataYaml
+     * @param array  $additionalData
      *
      * @return string
      */
-    public function renderWidget($widgetDataYaml)
+    public function renderWidget($widgetDataYaml, array $additionalData = [])
     {
         if (empty($widgetDataYaml) || !is_string($widgetDataYaml)) {
             return $widgetDataYaml;
         }
 
-        return $this->widgetRenderer->filter($this->generateWidgetDeclaration($this->parseYaml($widgetDataYaml)));
+        $widgetData = $this->parseYaml($widgetDataYaml, $additionalData);
+
+        return $this->widgetRenderer->filter($this->generateWidgetDeclaration($widgetData));
     }
 
     /**
-     * @param  string $yamlData
+     * @param string $yamlData
+     * @param array  $additionalData
      *
      * @return array
      */
-    private function parseYaml($yamlData)
+    private function parseYaml($yamlData, array $additionalData)
     {
         $widgetData = [];
 
         $data = Yaml::parse($yamlData);
 
         $widgetData['type'] = $data['widget_type'];
-        $widgetData['parameters'] = $data;
+        $widgetData['parameters'] = array_merge($data, $additionalData);
+
         unset($widgetData['parameters']['widget_type']);
 
         return $widgetData;
