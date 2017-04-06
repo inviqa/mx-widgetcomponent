@@ -74,14 +74,14 @@ class Categories extends Base
             );
         }
 
-        $checkbox = $this->elementFactory->create(Multiselect::class, ['data' => $baseElement->getData()]);
-        $checkbox->setValues($values);
-        $checkbox->setId($baseElement->getId());
-        $checkbox->setForm($baseElement->getForm());
+        $multiselect = $this->elementFactory->create(Multiselect::class, ['data' => $baseElement->getData()]);
+        $multiselect->setValues($values);
+        $multiselect->setId($baseElement->getId());
+        $multiselect->setForm($baseElement->getForm());
         if ($baseElement->getRequired()) {
-            $checkbox->addClass('required-entry');
+            $multiselect->addClass('required-entry');
         }
 
-        return $checkbox;
+        return $multiselect;
     }
 }
