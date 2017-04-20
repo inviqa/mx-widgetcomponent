@@ -59,11 +59,13 @@ class Categories extends Base
      */
     protected function createMultiselectElement(AbstractElement $baseElement)
     {
-        $config = $this->_getData('config');
-
         $collection = $this->categoryCollectionFactory->create();
         $collection->addAttributeToSelect('name');
         $collection->addAttributeToSelect('level');
+
+        if ($this->shouldOnlyShowActiveCategories()) {
+            $collection->addFieldToFilter('is_active', ['eq' => 1]);
+        }
         
         $values = [];
         foreach ($collection as $category) {
@@ -83,5 +85,15 @@ class Categories extends Base
         }
 
         return $multiselect;
+    }
+
+    /**
+     * @return bool
+     */
+    private function shouldOnlyShowActiveCategories()
+    {
+        $config = $this->_getData('config');
+
+        return isset($config['only_active']) && 'true' === $config['only_active'];
     }
 }
