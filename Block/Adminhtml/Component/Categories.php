@@ -69,10 +69,11 @@ class Categories extends Base
         
         $values = [];
         foreach ($collection as $category) {
-            $indent = str_repeat('--', $category->getLevel());
+            $indent = str_repeat('--', $category->getLevel() - 1);
             $values[] = array(
-               'label' => $indent . $category->getName(),
-               'value' => $category->getId()
+                'label' => $indent . $category->getName(),
+                'value' => $category->getId(),
+                'disabled' => intval($category->getLevel()) === 1
             );
         }
 
