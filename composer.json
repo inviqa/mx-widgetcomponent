@@ -3,9 +3,36 @@
     "description": "Inviqa - MX Widget Component",
     "type": "magento2-module",
     "version": "1.6.1",
-    "minimum-stability": "dev",
+    "repositories": {
+        "magento-repo": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tibor Kotosz",
+            "email": "tkotosz@inviqa.com",
+            "homepage": "https://github.com/tkotosz",
+            "role": "Developer"
+        },
+        {
+            "name": "Laszlo Kispal",
+            "email": "lkispal@inviqa.com",
+            "homepage": "https://github.com/kispali",
+            "role": "Developer"
+        },
+        {
+            "name": "James Halsall",
+            "email": "james.halsall@inviqa.com",
+            "homepage": "https://github.com/jameshalsall",
+            "role": "Developer"
+        }
+    ],
     "require": {
-        "php": ">=5.5"
+        "php": ">=5.5",
+        "magento/framework": "^100.1"
     },
     "config": {
         "bin-dir": "bin",
@@ -13,10 +40,10 @@
     },
     "autoload": {
         "files": [
-            "registration.php"
+            "src/MX/WidgetComponent/registration.php"
         ],
-        "psr-4": {
-            "MX\\WidgetComponent\\": ""
+        "psr-0": {
+            "MX\\WidgetComponent\\": "src"
         }
     }
 }
