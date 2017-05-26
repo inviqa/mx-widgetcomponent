@@ -32,7 +32,12 @@
     ],
     "require": {
         "php": ">=5.5",
-        "magento/framework": "^100.1"
+        "symfony/yaml": "~2.1|~3.0",
+        "magento/framework": "^100.1",
+        "magento/module-backend": "^100.1",
+        "magento/module-cms": "^101.0",
+        "magento/module-ui": "^100.1",
+        "magento/module-catalog": "^101.0"
     },
     "config": {
         "bin-dir": "bin",

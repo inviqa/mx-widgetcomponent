@@ -2,7 +2,10 @@
 
 namespace MX\WidgetComponent\Block\Adminhtml\Component\ImagePicker;
 
+use Magento\Backend\Block\Template\Context;
 use Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content\Uploader as UploaderParent;
+use Magento\Cms\Model\Wysiwyg\Images\Storage;
+use Magento\Framework\File\Size;
 
 /**
  * Wysiwyg Images uploader block
@@ -10,12 +13,11 @@ use Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content\Uploader as UploaderParen
 class Uploader extends UploaderParent
 {
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Framework\File\Size $fileSize,
-        \Magento\Cms\Model\Wysiwyg\Images\Storage $imagesStorage,
+        Context $context,
+        Size $fileSize,
+        Storage $imagesStorage,
         array $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $fileSize, $imagesStorage, $data);
 
         $type = $this->_getMediaType();
