@@ -3,6 +3,7 @@
 namespace MX\WidgetComponent\Block\Adminhtml\Component;
 
 use MX\WidgetComponent\Form\Component\ImagePicker\Image\Preview;
+use MX\WidgetComponent\Form\Component\ImagePicker\Image\RemoveLink;
 use Magento\Backend\Block\Widget\Button;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\UrlInterface;
@@ -35,9 +36,10 @@ class ImagePicker extends Base
     {
         $button = $this->createChooseButton($baseElement);
         $image = $this->createPreviewImage($baseElement);
+        $removeLink = $this->createRemoveImageLink($baseElement);
         $input = $this->createHiddenElement($baseElement);
 
-        return $input->getElementHtml() . $image->getElementHtml() . $button->toHtml();
+        return $input->getElementHtml() . $image->getElementHtml() . $button->toHtml() . $removeLink->getElementHtml();
     }
 
     /**
@@ -110,6 +112,22 @@ class ImagePicker extends Base
         $image->setForm($baseElement->getForm());
 
         return $image;
+    }
+
+    /**
+     * Create remove image link
+     *
+     * @param AbstractElement $baseElement
+     *
+     * @return AbstractElement
+     */
+    protected function createRemoveImageLink(AbstractElement $baseElement)
+    {
+        $link = $this->elementFactory->create(RemoveLink::class, ['data' => $baseElement->getData()]);
+        $link->setId($baseElement->getId() . '_remove_image');
+        $link->setForm($baseElement->getForm());
+
+        return $link;
     }
 
     /**
