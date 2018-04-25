@@ -39,7 +39,7 @@ define([
         _bind: function () {
             var $widget = this;
 
-            this._toggleRemoveLink();
+            this._toggleRemoveLink(this.input);
 
             this.input.on('change', function() {
                 var newValue = $widget.input.val();
@@ -90,12 +90,10 @@ define([
             });
         },
 
-        _toggleRemoveLink: function() {
-            $('.control-value').each(function(i, el) {
-                if ($(el).html() !== '') {
-                    $(el).closest('.control').find('.remove-image').show();
-                }
-            });
+        _toggleRemoveLink: function($input) {
+            if ($input.val() !== '') {
+                $input.closest('.control').find('.remove-image').show();
+            }
         },
 
         _openDialog: function() {
