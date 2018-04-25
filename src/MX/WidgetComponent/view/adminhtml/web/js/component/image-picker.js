@@ -15,6 +15,7 @@ define([
         input: "",
         label: "",
         button: "",
+        removeLink: "",
         previewImage: "",
 
         /**
@@ -26,6 +27,7 @@ define([
             this.label = this.input.prev();
             this.button = $('#' + this.options.targetId + '_button');
             this.previewImage = $('#' + this.options.targetId + '_preview_image');
+            this.removeLink = this.button.next('div').find('.remove-image');
 
             this._bind();
         },
@@ -53,6 +55,26 @@ define([
                         $widget.input.val('');
                         $widget.previewImage.attr('src', '');
                     }
+                }
+            });
+
+            this.removeLink.on('click', function(e) {
+                var value = $(e.target).data('target'),
+                    $input = $('#' + value.replace(/_remove_image/, '')),
+                    $image = $('#' + value.replace(/_remove_/, '_preview_')),
+                    $label;
+
+                if ($input.length) {
+                    $input.val('');
+                }
+
+                if ($image.length) {
+                    $image.attr('src', '');
+                }
+
+                $label = $input.prev('.control-value');
+                if ($label.length) {
+                    $label.html('');
                 }
             });
 
