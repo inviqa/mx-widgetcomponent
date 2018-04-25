@@ -38,6 +38,9 @@ define([
          */
         _bind: function () {
             var $widget = this;
+
+            this._toggleRemoveLink();
+
             this.input.on('change', function() {
                 var newValue = $widget.input.val();
 
@@ -56,6 +59,8 @@ define([
                         $widget.previewImage.attr('src', '');
                     }
                 }
+
+                $widget.removeLink.show();
             });
 
             this.removeLink.on('click', function(e) {
@@ -76,10 +81,20 @@ define([
                 if ($label.length) {
                     $label.html('');
                 }
+
+                $(e.target).hide();
             });
 
             $widget.button.on('click', function() {
                 $widget._openDialog();
+            });
+        },
+
+        _toggleRemoveLink: function() {
+            $('.control-value').each(function(i, el) {
+                if ($(el).html() !== '') {
+                    $(el).closest('.control').find('.remove-image').show();
+                }
             });
         },
 
