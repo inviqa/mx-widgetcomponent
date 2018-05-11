@@ -5,10 +5,7 @@ namespace MX\WidgetComponent\Helper;
 use Magento\Catalog\Helper\Data as DataHelper;
 use Magento\Framework\Filter\Template;
 
-/**
- * @deprecated use \MX\WidgetComponent\Helper\Media instead
- */
-class Image
+class Media
 {
     /**
      * @var Template
@@ -24,17 +21,17 @@ class Image
     }
 
     /**
-     * @param  string $imagePath
+     * @param  string $mediaPath
      *
      * @return string
      */
-    public function getImageUrl($imagePath)
+    public function getMediaUrl($mediaPath)
     {
-        if (empty($imagePath) || $this->isUrl($imagePath)) {
-            return $imagePath;
+        if (empty($mediaPath) || $this->isUrl($mediaPath)) {
+            return $mediaPath;
         }
 
-        return $this->templateProcessor->filter(sprintf("{{media url='%s'}}", $imagePath));
+        return $this->templateProcessor->filter(sprintf("{{media url='%s'}}", $mediaPath));
     }
 
     /**

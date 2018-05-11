@@ -2,30 +2,27 @@
 
 namespace MX\WidgetComponent\Block\Adminhtml\Component;
 
-use MX\WidgetComponent\Form\Component\MediaPicker\Image\Preview;
+use MX\WidgetComponent\Form\Component\MediaPicker\Video\Preview;
 use MX\WidgetComponent\Form\Component\MediaPicker\RemoveLink;
 use Magento\Backend\Block\Widget\Button;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\UrlInterface;
 
 /**
- * Image picker optional configuration
+ * Video picker optional configuration
  *
  * <data>
- *     <item name="dimension" xsi:type="array">
- *         <item name="max-width" xsi:type="string">500</item>
- *         <item name="max-height" xsi:type="string">500</item>
- *     </item>
- *     <item name="max-size" xsi:type="string">50000</item>
+ *     <item name="max-size" xsi:type="string">500000</item>
  *     <item name="button" xsi:type="array">
- *         <item name="open" xsi:type="string">Select Image...</item>
+ *         <item name="open" xsi:type="string">Select Video...</item>
  *    </item>
  * </data>
  *
  */
-class ImagePicker extends Base
+class VideoPicker extends Base
 {
-    const DEFAULT_CHOOSE_LABEL = 'Select Image...';
+    const DEFAULT_CHOOSE_LABEL = 'Select Video...';
+    const PLACEHOLDER_IMAGE_PATH = 'MX_WidgetComponent::images/camera.png';
 
     /**
      * @param AbstractElement $baseElement
@@ -35,11 +32,11 @@ class ImagePicker extends Base
     protected function getComponentHtml(AbstractElement $baseElement)
     {
         $button = $this->createChooseButton($baseElement);
-        $image = $this->createPreviewImage($baseElement);
-        $removeLink = $this->createRemoveImageLink($baseElement);
+        $preview = $this->createPreviewVideo($baseElement);
+        $removeLink = $this->createRemoveVideoLink($baseElement);
         $input = $this->createHiddenElement($baseElement);
 
-        return $input->getElementHtml() . $image->getElementHtml() . $button->toHtml() . $removeLink->getElementHtml();
+        return $input->getElementHtml() . $preview->getElementHtml() . $button->toHtml() . $removeLink->getElementHtml();
     }
 
     /**
@@ -98,33 +95,33 @@ class ImagePicker extends Base
     }
 
     /**
-     * Create preview image
+     * Create preview video
      *
      * @param AbstractElement $baseElement
      *
      * @return AbstractElement
      */
-    protected function createPreviewImage(AbstractElement $baseElement)
+    protected function createPreviewVideo(AbstractElement $baseElement)
     {
-        $image = $this->elementFactory->create(Preview::class, ['data' => $baseElement->getData()]);
-        $image->setData('src', $baseElement->getValue());
-        $image->setId($baseElement->getId() . '_preview_image');
-        $image->setForm($baseElement->getForm());
+        $video = $this->elementFactory->create(Preview::class, ['data' => $baseElement->getData()]);
+        $video->setData('src', self::PLACEHOLDER_IMAGE_PATH);
+        $video->setId($baseElement->getId() . '_preview_video');
+        $video->setForm($baseElement->getForm());
 
-        return $image;
+        return $video;
     }
 
     /**
-     * Create remove image link
+     * Create remove video link
      *
      * @param AbstractElement $baseElement
      *
      * @return AbstractElement
      */
-    protected function createRemoveImageLink(AbstractElement $baseElement)
+    protected function createRemoveVideoLink(AbstractElement $baseElement)
     {
         $link = $this->elementFactory->create(RemoveLink::class, ['data' => $baseElement->getData()]);
-        $link->setId($baseElement->getId() . '_remove_image');
+        $link->setId($baseElement->getId() . '_remove_video');
         $link->setForm($baseElement->getForm());
 
         return $link;
@@ -146,14 +143,6 @@ class ImagePicker extends Base
             $params['max-size'] = $config['max-size'];
         }
 
-        if (isset($config['dimension']['max-width'])) {
-            $params['max-width'] = $config['dimension']['max-width'];
-        }
-
-        if (isset($config['dimension']['max-height'])) {
-            $params['max-height'] = $config['dimension']['max-height'];
-        }
-
-        return $this->getUrl('widgetcomponent/imagepicker/index', $params);
+        return $this->getUrl('widgetcomponent/videopicker/index', $params);
     }
 }

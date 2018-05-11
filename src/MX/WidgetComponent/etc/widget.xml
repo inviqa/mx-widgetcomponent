@@ -77,6 +77,23 @@
             </parameter>
         </parameters>
     </widget>
-</widgets>
+    <widget id="mx_widgetcomponent_video" class="MX\WidgetComponent\Block\Widget\Video">
+        <label>MX WidgetComponent: Video</label>
+        <description translate="true"><![CDATA[Video widget]]></description>
+        <parameters>
+            <parameter name="template" xsi:type="select" visible="false">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/video.phtml" selected="true">
+                        <label translate="true">Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="video_url" xsi:type="block" visible="true" required="true" sort_order="10">
+                <label translate="true">Video</label>
+                <block class="MX\WidgetComponent\Block\Adminhtml\Component\VideoPicker"/>
+            </parameter>
+        </parameters>
+    </widget></widgets>
 
 

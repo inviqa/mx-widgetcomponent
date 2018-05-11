@@ -15,6 +15,16 @@ Features of this component:
 - Restrict the allowed images by file size
 - (allowed file types are configured in the cms module OOB)
 
+### Video Picker
+Allows to use the cms uploader on the widget forms, which makes it easy to upload/select an video for the widget.
+
+Features of this component:
+- Upload cms video
+- Select already uploaded cms video
+- Configurable video choose button label
+- Restrict the allowed videos by file size
+- (allowed file types are configured in the specific xml file)
+
 ### Date Picker
 Allows to pick date using the default datepicker js component.
 
@@ -77,6 +87,26 @@ Magento 2.X (tested in magento 2.0.10, 2.1.2)
         <!-- Optional configuration parameters -->
     </block>
 </parameter>
+
+```
+
+### Video Picker
+
+```xml
+<parameter name="my_param" xsi:type="block" visible="true" required="false">
+    <label translate="true">Video</label>
+    <block class="MX\WidgetComponent\Block\Adminhtml\Component\VideoPicker">
+        <!-- Optional configuration parameters -->
+        <data>
+            <item name="max-size" xsi:type="string">500000</item>
+            <item name="button" xsi:type="array">
+                <item name="open" xsi:type="string">Select Video...</item>
+            </item>
+        </data>
+        <!-- Optional configuration parameters -->
+    </block>
+</parameter>
+
 ```
 
 ### Date Picker
