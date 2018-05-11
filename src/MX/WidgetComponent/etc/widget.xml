@@ -94,6 +94,7 @@
                 <block class="MX\WidgetComponent\Block\Adminhtml\Component\VideoPicker"/>
             </parameter>
         </parameters>
-    </widget></widgets>
+    </widget>
+</widgets>
 
 
