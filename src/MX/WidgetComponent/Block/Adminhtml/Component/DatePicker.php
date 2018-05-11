@@ -3,7 +3,7 @@
 namespace MX\WidgetComponent\Block\Adminhtml\Component;
 
 use Magento\Framework\Data\Form\Element\AbstractElement;
-use Magento\Framework\Data\Form\Element\Date;
+use MX\WidgetComponent\Form\Component\Date;
 
 /**
  * Date picker optional configuration
