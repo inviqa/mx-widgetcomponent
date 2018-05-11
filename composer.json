@@ -2,7 +2,7 @@
     "name": "inviqa/mx-widgetcomponent",
     "description": "Inviqa - MX Widget Component",
     "type": "magento2-module",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "repositories": {
         "magento-repo": {
             "type": "composer",
