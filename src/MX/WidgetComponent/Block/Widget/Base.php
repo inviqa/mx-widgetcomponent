@@ -2,7 +2,9 @@
 
 namespace MX\WidgetComponent\Block\Widget;
 
+use Magento\Framework\App\ObjectManager;
 use MX\WidgetComponent\Helper\Image as ImageHelper;
+use MX\WidgetComponent\Helper\Media as MediaHelper;
 use MX\WidgetComponent\Helper\Url as UrlHelper;
 use MX\WidgetComponent\Helper\Widget as WidgetHelper;
 use Magento\Framework\View\Element\Template;
@@ -17,9 +19,9 @@ class Base extends Template implements BlockInterface
     private $urlHelper;
 
     /**
-     * @var ImageHelper
+     * @var MediaHelper
      */
-    private $imageHelper;
+    private $mediaHelper;
     
     /**
      * @var WidgetHelper
@@ -32,17 +34,22 @@ class Base extends Template implements BlockInterface
      * @param ImageHelper  $imageHelper
      * @param WidgetHelper $widgetHelper
      * @param array        $data
+     * @param MediaHelper  $mediaHelper
      */
     public function __construct(
         Context $context,
         UrlHelper $urlHelper,
         ImageHelper $imageHelper,
         WidgetHelper $widgetHelper,
-        array $data = []
+        array $data = [],
+        MediaHelper $mediaHelper = null
     ) {
         $this->urlHelper = $urlHelper;
-        $this->imageHelper = $imageHelper;
+        $this->mediaHelper = $mediaHelper;
         $this->widgetHelper = $widgetHelper;
+        if (is_null($mediaHelper)) {
+            $this->mediaHelper = ObjectManager::getInstance()->get(MediaHelper::class);
+        }
         parent::__construct($context, $data);
     }
 
@@ -63,7 +70,17 @@ class Base extends Template implements BlockInterface
      */
     protected function renderImageUrl($imagePath)
     {
-        return $this->imageHelper->getImageUrl($imagePath);
+        return $this->mediaHelper->getMediaUrl($imagePath);
+    }
+
+    /**
+     * @param  string $videoPath
+     *
+     * @return string
+     */
+    protected function renderVideoUrl($videoPath)
+    {
+        return $this->mediaHelper->getMediaUrl($videoPath);
     }
 
     /**

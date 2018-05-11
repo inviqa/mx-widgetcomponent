@@ -1,8 +1,8 @@
 <?php
 
-namespace MX\WidgetComponent\Form\Component\ImagePicker\Image;
+namespace MX\WidgetComponent\Form\Component\MediaPicker\Image;
 
-use MX\WidgetComponent\Helper\Image as ImageHelper;
+use MX\WidgetComponent\Helper\Media as MediaHelper;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Data\Form\Element\CollectionFactory;
 use Magento\Framework\Data\Form\Element\Factory;
@@ -15,25 +15,25 @@ class Preview extends AbstractElement
     const IMG_TAG = '<img id="%s" src="%s" height="36" width="36" class="v-middle"/>';
 
     /**
-     * @var ImageHelper
+     * @var MediaHelper
      */
-    protected $imageHelper;
+    protected $mediaHelper;
 
     /**
      * @param Factory           $factoryElement
      * @param CollectionFactory $factoryCollection
      * @param Escaper           $escaper
-     * @param ImageHelper       $imageHelper
+     * @param MediaHelper       $mediaHelper
      * @param array             $data
      */
     public function __construct(
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        ImageHelper $imageHelper,
+        MediaHelper $mediaHelper,
         $data = []
     ) {
-        $this->imageHelper = $imageHelper;
+        $this->mediaHelper = $mediaHelper;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('image');
     }
@@ -56,7 +56,7 @@ class Preview extends AbstractElement
      */
     private function getImageUrl()
     {
-        return $this->imageHelper->getImageUrl($this->getValue());
+        return $this->mediaHelper->getMediaUrl($this->getValue());
     }
 
     /**

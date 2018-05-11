@@ -1,6 +1,6 @@
 <?php
 
-namespace MX\WidgetComponent\Form\Component\ImagePicker\Image;
+namespace MX\WidgetComponent\Form\Component\MediaPicker;
 
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Data\Form\Element\CollectionFactory;
@@ -10,7 +10,7 @@ use Magento\Framework\Escaper;
 class RemoveLink extends AbstractElement
 {
     const DIV_TAG = '<div style="margin-top: 10px">%s</div>';
-    const A_TAG = '<a href="javascript:void(0)" class="remove-image" data-target="%s" style="display:none">Remove image</a>';
+    const A_TAG = '<a href="javascript:void(0)" class="remove-media" data-target="%s" style="display:none">Remove media</a>';
 
     /**
      * @param Factory           $factoryElement
