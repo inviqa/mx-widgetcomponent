@@ -20,7 +20,6 @@ class Uploader extends UploaderParent
     ) {
         parent::__construct($context, $fileSize, $videoStorage, $data);
 
-        $type = $this->_getMediaType();
         $this->getConfig()->setUrl(
             $this->_urlBuilder->addSessionParam()->getUrl(
                 'widgetcomponent/wysiwyg_videos/upload',

@@ -87,8 +87,6 @@ class Preview extends AbstractElement
      */
     private function createATag($videoUrl, $content)
     {
-
-
         return sprintf(self::A_TAG, $videoUrl, $content);
     }
 
