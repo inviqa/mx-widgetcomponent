@@ -117,8 +117,8 @@ Magento 2.X (tested in magento 2.0.10, 2.1.2)
     <block class="MX\WidgetComponent\Block\Adminhtml\Component\DatePicker">
         <!-- Optional configuration parameters -->
         <data>
-            <item name="dateFormat" xsi:type="string">Y-m-d</item>
-            <item name="timeFormat" xsi:type="string">H:i</item>
+            <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+            <item name="timeFormat" xsi:type="string">HH:mm:ss</item>
             <item name="image" xsi:type="string">path-to/url</item>
             <item name="disabled" xsi:type="boolean">true</item>
         </data>
@@ -135,8 +135,8 @@ Magento 2.X (tested in magento 2.0.10, 2.1.2)
     <block class="MX\WidgetComponent\Block\Adminhtml\Component\DateTimePicker">
         <!-- Optional configuration parameters -->
         <data>
-            <item name="dateFormat" xsi:type="string">Y-m-d</item>
-            <item name="timeFormat" xsi:type="string">H:i</item>
+            <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+            <item name="timeFormat" xsi:type="string">HH:mm:ss</item>
             <item name="image" xsi:type="string">path-to/url</item>
             <item name="disabled" xsi:type="boolean">true</item>
         </data>
