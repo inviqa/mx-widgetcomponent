@@ -63,7 +63,7 @@ Features of this component:
 For more information please see the Usage section.
 
 ## Compatibility
-Magento 2.X (tested in magento 2.0.10, 2.1.2)
+Magento 2.X (tested in magento 2.0.10, 2.1.2, 2.2.3)
 
 ## Usage
 
