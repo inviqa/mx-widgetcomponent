@@ -22,7 +22,7 @@ class Uploader extends UploaderParent
 
         $type = $this->_getMediaType();
         $this->getConfig()->setUrl(
-            $this->_urlBuilder->addSessionParam()->getUrl('cms/wysiwyg_images/upload', ['type' => $type])
+            $this->_urlBuilder->getUrl('cms/wysiwyg_images/upload', ['type' => $type])
         );
     }
 }
