@@ -42,7 +42,7 @@ class Base extends Template implements BlockInterface
         ImageHelper $imageHelper,
         WidgetHelper $widgetHelper,
         array $data = [],
-        MediaHelper $mediaHelper = null
+        ?MediaHelper $mediaHelper = null
     ) {
         $this->urlHelper = $urlHelper;
         $this->mediaHelper = $mediaHelper;
