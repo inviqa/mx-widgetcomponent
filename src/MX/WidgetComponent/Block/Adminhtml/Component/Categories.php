@@ -62,6 +62,7 @@ class Categories extends Base
         $collection = $this->categoryCollectionFactory->create();
         $collection->addAttributeToSelect('name');
         $collection->addAttributeToSelect('level');
+        $collection->addFieldToFilter('level', ['gt' => 0]);
 
         if ($this->shouldOnlyShowActiveCategories()) {
             $collection->addFieldToFilter('is_active', ['eq' => 1]);
