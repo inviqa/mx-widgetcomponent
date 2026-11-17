@@ -14,5 +14,7 @@ class OnInsert extends Action
         $params = $this->getRequest()->getPost('parameters', []);
 
         $this->getResponse()->setBody(Yaml::dump($params, 0, 1));
+
+        return $this->getResponse();
     }
 }
