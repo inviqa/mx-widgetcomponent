@@ -3,7 +3,6 @@
 namespace MX\WidgetComponent\Block\Widget;
 
 use Magento\Framework\App\ObjectManager;
-use MX\WidgetComponent\Helper\Image as ImageHelper;
 use MX\WidgetComponent\Helper\Media as MediaHelper;
 use MX\WidgetComponent\Helper\Url as UrlHelper;
 use MX\WidgetComponent\Helper\Widget as WidgetHelper;
@@ -31,7 +30,6 @@ class Base extends Template implements BlockInterface
     /**
      * @param Context      $context
      * @param UrlHelper    $urlHelper
-     * @param ImageHelper  $imageHelper
      * @param WidgetHelper $widgetHelper
      * @param array        $data
      * @param MediaHelper  $mediaHelper
@@ -39,7 +37,6 @@ class Base extends Template implements BlockInterface
     public function __construct(
         Context $context,
         UrlHelper $urlHelper,
-        ImageHelper $imageHelper,
         WidgetHelper $widgetHelper,
         array $data = [],
         ?MediaHelper $mediaHelper = null
